@@ -1,0 +1,94 @@
+{% extends "pets/base_menu.html" %}
+{% block head %}
+<style>
+body{
+    background-image: url("{% url 'pet_path' %}");
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-attachment: scroll;
+}
+</style>
+{% endblock %}
+{% block content %}
+<h1 style="text-align:center">These are the top 10 pets from Pet Adoption Site</h1>
+<h4>Welcome to search for a pet with either breed, color or age</h4>
+<form>
+  <input type="text" placeholder="Search for a pet.." name="search"
+  {% if search %} value="{{ search }}" {% endif %}
+  >
+  <button type="submit"><i class="fa fa-search"></i></button>
+<a href="{% url 'pets:all' %}"><i class="fa fa-undo"></i></a>
+</form>
+{% if pet_list %}
+<ul style="list-style-type: none;margin-bottom:5rem;">
+    {% for pet in pet_list %}
+    <div class="post-wrapper">
+        <div class="post">
+            <div class="post-heading">
+                <h2 class="title">{{ pet.name }}</h2>
+            </div>
+            <div class="post-content read-more-block">
+                Species: {{ pet.species }} | Breed: {{pet.breed }}
+            </div>
+            <div class="post-footer">
+                <div>Age: {{pet.age}}</div>
+                <div>Gender: {{pet.sex}}</div>
+                <div>Color: {{pet.color}}</div>
+                <div>Pet iD: {{pet.pet_id}}</div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</ul>
+{% else %}
+  <p>Sorry, There are no such pet in the database.</p>
+{% endif %}
+<br>
+<div>
+    <img id="show_one" src="data:image/png;base64,{{ data }}" alt="pet plot"
+        height="400", width="500" style="display:none;">
+    <button type="button" class="btn btn-warning" onclick="showPlot('show_one')">
+        See Pet Distribution</button>
+</div>
+<br>
+<div>
+    <img id="show_two" src="data:image/png;base64,{{ dataAge }}" alt="age plot"
+        height="400", width="500" style="display:none;">
+    <button type="button" class="btn btn-warning" onclick="showPlot('show_two')">
+        See Age Distribution</button>
+</div>
+<br>
+<div>
+    <img id="show_three" src="data:image/png;base64,{{ dataPyramid }}" alt="pyramid plot"
+        height="600", width="700" style="display:none;">
+    <button type="button" class="btn btn-warning" onclick="showPlot('show_three')">
+        See Population/Gender Pyramid</button>
+</div>
+<br>
+<div>
+    <img id="show_four" src="data:image/png;base64,{{ dataPie }}" alt="pie plot"
+        height="500", width="500" style="display:none;">
+    <button type="button" class="btn btn-warning" onclick="showPlot('show_four')">
+        See Gender Pie</button>
+</div>
+<br>
+<div>
+    <img id="show_five" src="data:image/png;base64,{{ dataScat }}" alt="scatter plot"
+        height="600", width="800" style="display:none;">
+    <button type="button" class="btn btn-warning" onclick="showPlot('show_five')">
+        See Breed/Color Scatter Plot</button>
+</div>
+<br>
+<script>
+// this function is called when showing plots
+function showPlot(show_id) {
+    console.log("I am here!!!!!")
+    document.getElementById(show_id).style.display = "block";
+}
+
+</script>
+{% endblock %}
+
+
+<!--References:-->
+<!--Photo by <a href="https://unsplash.com/@karsten116?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Karsten Winegeart</a> on <a href="https://unsplash.com/s/photos/pets?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>-->
